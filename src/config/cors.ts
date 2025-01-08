@@ -2,16 +2,16 @@ import { CorsOptions } from "cors";
 
 export const corsConfig: CorsOptions = {
   origin: function (origin, callback) {
-    const whiteList = [process.env.FRONTEND_URL];
+    const whitelist = [process.env.FRONTEND_URL, "http://localhost:3000"];
 
-    if (process.argv[2] === "--api") {
-      whiteList.push(undefined);
-    }
+    console.log("Origin:", origin); // Log para ver qué origin está bloqueado
 
-    if (whiteList.includes(origin)) {
+    if (!origin || whitelist.includes(origin)) {
       callback(null, true);
     } else {
+      console.error("Blocked by CORS:", origin);
       callback(new Error("Not allowed by CORS"));
     }
-  },
+  }, 
 };
+
